@@ -1,6 +1,8 @@
 "use server";
 import { getBrowser } from "@/app/puppeteer/browser";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(request: Request) {
   const browser = await getBrowser();
   const page = await browser.newPage();
