@@ -95,6 +95,7 @@ export class YoutubeTranscript {
     })()?.["playerCaptionsTracklistRenderer"];
 
     if (!captions) {
+      console.error(videoPageBody);
       throw new YoutubeTranscriptDisabledError(videoId);
     }
 
