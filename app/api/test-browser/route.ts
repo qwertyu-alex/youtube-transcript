@@ -1,4 +1,3 @@
-"use server";
 import { getBrowser } from "@/app/puppeteer/browser";
 
 export const dynamic = "force-dynamic";
