@@ -1,3 +1,5 @@
+"use server";
+
 import chromium from "@sparticuz/chromium";
 import puppeteerCore from "puppeteer-core";
 import puppeteer from "puppeteer";

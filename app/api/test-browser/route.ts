@@ -1,3 +1,4 @@
+"use server";
 import { getBrowser } from "@/app/puppeteer/browser";
 
 export async function GET(request: Request) {
