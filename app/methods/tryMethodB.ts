@@ -172,6 +172,8 @@ export async function tryMethodB(
     .transcriptSearchPanelRenderer.body.transcriptSegmentListRenderer
     .initialSegments as TranscriptSegment[];
 
+  console.log(transcriptContent);
+
   const res = transcriptContent.map((segment) => {
     if ("transcriptSectionHeaderRenderer" in segment) {
       return {
