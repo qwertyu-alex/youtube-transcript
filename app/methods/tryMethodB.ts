@@ -187,10 +187,10 @@ export async function tryMethodB(
           .sectionHeaderViewModel.headline.content,
         durationInSec:
           (parseInt(segment.transcriptSectionHeaderRenderer.endMs) -
-            parseInt(segment.transcriptSectionHeaderRenderer.startMs)) *
+            parseInt(segment.transcriptSectionHeaderRenderer.startMs)) /
           1000,
         offsetInSec:
-          parseInt(segment.transcriptSectionHeaderRenderer.startMs) * 1000,
+          parseInt(segment.transcriptSectionHeaderRenderer.startMs) / 1000,
         lang: "en",
       };
     }
@@ -202,9 +202,9 @@ export async function tryMethodB(
           .join(""),
         durationInSec:
           (parseInt(segment.transcriptSegmentRenderer.endMs) -
-            parseInt(segment.transcriptSegmentRenderer.startMs)) *
+            parseInt(segment.transcriptSegmentRenderer.startMs)) /
           1000,
-        offsetInSec: parseInt(segment.transcriptSegmentRenderer.startMs) * 1000,
+        offsetInSec: parseInt(segment.transcriptSegmentRenderer.startMs) / 1000,
         lang: "en",
       };
     } else {
