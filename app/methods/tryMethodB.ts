@@ -12,6 +12,7 @@ export async function tryMethodB(
   const transcriptEndpoint = videoPageBody.match(transcriptEndpointRegex);
 
   const sanitizedVideoPageBody = sanitizeHtml(videoPageBody);
+  console.log({ sanitizedVideoPageBody });
 
   const param = transcriptEndpoint?.at(-1);
 
