@@ -51,7 +51,7 @@ export class YoutubeTranscript {
       }
     );
     const videoPageBody = await videoPageResponse.text();
-    const htmlTitle = parse(videoPageBody).querySelector("title")?.textContent;
+    const videoTitlePromise = getVideoTitle(identifier);
 
     const res = await tryMethodA(videoPageBody);
 
@@ -59,7 +59,7 @@ export class YoutubeTranscript {
       console.log("Method A success");
       return {
         transcript: res,
-        title: htmlTitle,
+        title: await videoTitlePromise,
       };
     }
 
@@ -68,10 +68,37 @@ export class YoutubeTranscript {
       console.log("Method B success");
       return {
         transcript: res2,
-        title: htmlTitle,
+        title: await videoTitlePromise,
       };
     }
 
     throw new YoutubeTranscriptNotAvailableError(identifier);
   }
+}
+
+async function getVideoTitle(videoId: string) {
+  const oembedResponse = await fetch(
+    `https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${videoId}&format=json`
+  );
+  const oembedBody = await oembedResponse.json();
+
+  /**
+   * {
+    "title": "TypeScript types can run DOOM",
+    "author_name": "Michigan TypeScript",
+    "author_url": "https://www.youtube.com/@MichiganTypeScript",
+    "type": "video",
+    "height": 113,
+    "width": 200,
+    "version": "1.0",
+    "provider_name": "YouTube",
+    "provider_url": "https://www.youtube.com/",
+    "thumbnail_height": 360,
+    "thumbnail_width": 480,
+    "thumbnail_url": "https://i.ytimg.com/vi/0mCsluv5FXA/hqdefault.jpg",
+    "html": "\u003Ciframe width=\"200\" height=\"113\" src=\"https://www.youtube.com/embed/0mCsluv5FXA?feature=oembed\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen title=\"TypeScript types can run DOOM\"\u003E\u003C/iframe\u003E"
+  }
+ */
+
+  return oembedBody.title;
 }

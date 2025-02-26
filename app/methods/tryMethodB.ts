@@ -12,7 +12,6 @@ export async function tryMethodB(
   const transcriptEndpoint = videoPageBody.match(transcriptEndpointRegex);
 
   const sanitizedVideoPageBody = sanitizeHtml(videoPageBody);
-  console.log({ sanitizedVideoPageBody });
 
   const param = transcriptEndpoint?.at(-1);
 
@@ -177,8 +176,6 @@ export async function tryMethodB(
   const transcriptContent = transcript?.content.transcriptRenderer.content
     .transcriptSearchPanelRenderer.body.transcriptSegmentListRenderer
     .initialSegments as TranscriptSegment[];
-
-  console.dir({ transcriptContent }, { depth: 10 });
 
   const res = transcriptContent.map((segment) => {
     if ("transcriptSectionHeaderRenderer" in segment) {
