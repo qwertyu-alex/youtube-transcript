@@ -2,30 +2,34 @@
 
 import type React from "react";
 
+import { previousTranscriptsAtom, transcriptAtom } from "@/app/atoms";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useAtom, useSetAtom } from "jotai";
 import { useState } from "react";
-import { TranscriptResponse } from "@/app/types";
 
-export default function TranscriptForm(props: {
-  onTranscriptFetched: (transcript: TranscriptResponse[]) => void;
-}) {
+export default function TranscriptForm() {
   const [url, setUrl] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [previousTranscripts, setPreviousTranscripts] = useAtom(
+    previousTranscriptsAtom
+  );
+  const setTranscript = useSetAtom(transcriptAtom);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError(null);
 
     if (!url || !url.includes("youtube.com")) {
       setError("Please enter a valid YouTube URL");
       return;
     }
 
-    try {
-      console.log("Submitting URL:", url); // Log the URL being submitted
+    setIsLoading(true);
 
+    try {
       const response = await fetch("/api/transcript", {
         method: "POST",
         headers: {
@@ -34,28 +38,29 @@ export default function TranscriptForm(props: {
         body: JSON.stringify({ url }),
       });
 
-      console.log("Response status:", response.status); // Log the response status
-
-      let data;
-      const textResponse = await response.text(); // Get the raw text response
-      console.log("Raw response:", textResponse); // Log the raw response
-
-      const decoded = new DOMParser().parseFromString(textResponse, "text/html")
-        .documentElement.textContent;
-
-      try {
-        data = JSON.parse(decoded || "");
-      } catch (jsonError) {
-        console.error("JSON parse error:", jsonError);
-        throw new Error(`Invalid JSON response: ${decoded}`);
-      }
+      const jsonResponse = await response.json(); // Get the raw text response
+      console.log(jsonResponse);
 
       if (!response.ok) {
-        throw new Error(data.error || `HTTP error! status: ${response.status}`);
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      if (data.transcript) {
-        props.onTranscriptFetched(data.transcript);
+      if (jsonResponse.transcript) {
+        setTranscript({
+          url: url,
+          transcript: jsonResponse.transcript,
+          title: jsonResponse.title,
+          createdAt: Date.now(),
+        });
+        setPreviousTranscripts([
+          ...previousTranscripts,
+          {
+            url: url,
+            transcript: jsonResponse.transcript,
+            title: jsonResponse.title,
+            createdAt: Date.now(),
+          },
+        ]);
       } else {
         throw new Error("No transcript data received");
       }

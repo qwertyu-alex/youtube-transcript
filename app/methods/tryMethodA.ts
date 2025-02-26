@@ -43,8 +43,6 @@ export async function tryMethodA(
   const transcriptBody = await transcriptResponse.text();
   const results = [...transcriptBody.matchAll(RE_XML_TRANSCRIPT)];
 
-  console.log(results[0]);
-
   const res = results.map((result) => ({
     text: result[3],
     durationInSec: parseFloat(result[2]),

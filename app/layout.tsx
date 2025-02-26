@@ -1,20 +1,33 @@
-import type { Metadata } from 'next'
-import './globals.css'
+import type { Metadata } from "next";
+import "./globals.css";
+import { Toaster } from "@/components/ui/sonner";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { Sidebar } from "@/components/sidebar";
 
 export const metadata: Metadata = {
-  title: 'v0 App',
-  description: 'Created with v0',
-  generator: 'v0.dev',
-}
+  title: "Free YouTube Transcript Generator",
+  description:
+    "Fastest way to get transcripts from Youtube videos - Open source on GitHub",
+  icons: {
+    icon: "/favicon.png",
+  },
+};
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode
+  children: React.ReactNode;
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <SidebarProvider>
+          <Sidebar />
+          <SidebarTrigger />
+          {children}
+          <Toaster />
+        </SidebarProvider>
+      </body>
     </html>
-  )
+  );
 }

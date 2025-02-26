@@ -1,4 +1,4 @@
-import { TranscriptResponse } from "./transcript";
+import { TranscriptResponse } from "./types";
 
 export function extractVideoId(url: string): string | null {
   const parsedUrl = new URL(url);
@@ -15,29 +15,22 @@ export function getTranscriptWithoutTimestamps(
 ) {
   return transcript
     .map((segment) => segment.text)
-    .join(" ")
+    .join("\n")
     .trim();
 }
 
 export function getTranscriptWithTimestamps(transcript: TranscriptResponse[]) {
   return transcript
     .map((segment) => {
-      const timestamp = formatTimestamp(segment.offset);
-      return `[${timestamp}] ${segment.text}`;
+      const timestamp = formatTimestamp(segment.offsetInSec);
+      return `[${timestamp}]\t${segment.text}`;
     })
     .join("\n")
     .trim();
 }
 
-function formatTimestamp(seconds: number): string {
-  const hours = Math.floor(seconds / 3600);
-  const minutes = Math.floor((seconds % 3600) / 60);
-  const remainingSeconds = Math.floor(seconds % 60);
-
-  if (hours > 0) {
-    return `${padZero(hours)}:${padZero(minutes)}:${padZero(remainingSeconds)}`;
-  }
-  return `${padZero(minutes)}:${padZero(remainingSeconds)}`;
+export function formatTimestamp(seconds: number): string {
+  return new Date(seconds * 1000).toISOString().substr(11, 8);
 }
 
 function padZero(num: number): string {

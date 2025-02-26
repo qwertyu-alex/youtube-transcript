@@ -47,3 +47,10 @@ export type TranscriptResponse = {
   offsetInSec: number;
   lang?: string;
 };
+
+export type TranscriptResponseData = {
+  url: string;
+  transcript: TranscriptResponse[];
+  title: string;
+  createdAt: number;
+};

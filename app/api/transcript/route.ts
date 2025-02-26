@@ -19,15 +19,16 @@ export async function POST(request: Request) {
       );
     }
 
-    const transcript = await YoutubeTranscript.fetchTranscript(videoId);
-    console.log("Transcript fetched successfully"); // Log success
+    const { transcript, title } = await YoutubeTranscript.fetchTranscript(
+      videoId
+    );
 
     const sanitizedTranscript = transcript.map((item) => ({
       ...item,
       text: parse(sanitizeHtml(item.text)).textContent,
     }));
 
-    return NextResponse.json({ transcript: sanitizedTranscript });
+    return NextResponse.json({ transcript: sanitizedTranscript, title });
   } catch (error) {
     console.error("Detailed API error:", error); // Log the detailed error
     return NextResponse.json(

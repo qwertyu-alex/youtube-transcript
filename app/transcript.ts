@@ -1,3 +1,4 @@
+import parse from "node-html-parser";
 import { tryMethodA } from "./methods/tryMethodA";
 import { tryMethodB } from "./methods/tryMethodB";
 import { TranscriptResponse } from "./types";
@@ -33,7 +34,10 @@ export class YoutubeTranscript {
   public static async fetchTranscript(
     videoId: string,
     config?: TranscriptConfig
-  ): Promise<TranscriptResponse[]> {
+  ): Promise<{
+    transcript: TranscriptResponse[];
+    title: string | undefined;
+  }> {
     const identifier = videoId;
 
     const videoPageResponse = await fetch(
@@ -48,14 +52,25 @@ export class YoutubeTranscript {
     );
     const videoPageBody = await videoPageResponse.text();
 
+    const htmlTitle = parse(videoPageBody).querySelector("title")?.textContent;
+
     const res = await tryMethodA(videoPageBody);
+
     if (res) {
-      return res;
+      console.log("Method A success");
+      return {
+        transcript: res,
+        title: htmlTitle,
+      };
     }
 
     const res2 = await tryMethodB(videoPageBody);
     if (res2) {
-      return res2;
+      console.log("Method B success");
+      return {
+        transcript: res2,
+        title: htmlTitle,
+      };
     }
 
     throw new YoutubeTranscriptNotAvailableError(identifier);
