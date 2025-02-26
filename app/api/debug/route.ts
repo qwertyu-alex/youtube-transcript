@@ -11,7 +11,6 @@ export async function POST(request: Request) {
   console.log("Received URL:", url); // Log the received URL
 
   const videoId = extractVideoId(url);
-  console.log("Extracted video ID:", videoId); // Log the extracted video ID
 
   if (!videoId) {
     return NextResponse.json({ error: "Invalid YouTube URL" }, { status: 400 });

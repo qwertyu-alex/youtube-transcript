@@ -39,7 +39,6 @@ export default function TranscriptForm() {
       });
 
       const jsonResponse = await response.json(); // Get the raw text response
-      console.log(jsonResponse);
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);

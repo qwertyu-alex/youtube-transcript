@@ -22,7 +22,6 @@ export async function tryMethodA(
   })()?.["playerCaptionsTracklistRenderer"];
 
   if (!captions) {
-    console.error(videoPageBody);
     return null;
   }
 
