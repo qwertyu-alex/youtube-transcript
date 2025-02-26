@@ -51,7 +51,6 @@ export class YoutubeTranscript {
       }
     );
     const videoPageBody = await videoPageResponse.text();
-
     const htmlTitle = parse(videoPageBody).querySelector("title")?.textContent;
 
     const res = await tryMethodA(videoPageBody);

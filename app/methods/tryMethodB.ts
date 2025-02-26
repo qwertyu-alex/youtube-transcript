@@ -8,6 +8,9 @@ export async function tryMethodB(
   const transcriptEndpointRegex =
     /"getTranscriptEndpoint":({"params":"([A-Za-z0-9%=+-_]+)"})/;
   const transcriptEndpoint = videoPageBody.match(transcriptEndpointRegex);
+
+  console.log({ videoPageBody });
+
   const param = transcriptEndpoint?.at(-1);
 
   if (!transcriptEndpoint || !param) {
@@ -172,7 +175,7 @@ export async function tryMethodB(
     .transcriptSearchPanelRenderer.body.transcriptSegmentListRenderer
     .initialSegments as TranscriptSegment[];
 
-  console.log(transcriptContent);
+  console.log({ transcriptContent });
 
   const res = transcriptContent.map((segment) => {
     if ("transcriptSectionHeaderRenderer" in segment) {
