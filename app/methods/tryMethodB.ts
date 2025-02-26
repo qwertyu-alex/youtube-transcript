@@ -1,4 +1,6 @@
 import { TranscriptResponse, TranscriptSegment } from "../types";
+import sanitizeHtml from "sanitize-html";
+
 const USER_AGENT =
   "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36";
 
@@ -9,7 +11,7 @@ export async function tryMethodB(
     /"getTranscriptEndpoint":({"params":"([A-Za-z0-9%=+-_]+)"})/;
   const transcriptEndpoint = videoPageBody.match(transcriptEndpointRegex);
 
-  console.log({ videoPageBody });
+  const sanitizedVideoPageBody = sanitizeHtml(videoPageBody);
 
   const param = transcriptEndpoint?.at(-1);
 
@@ -175,7 +177,7 @@ export async function tryMethodB(
     .transcriptSearchPanelRenderer.body.transcriptSegmentListRenderer
     .initialSegments as TranscriptSegment[];
 
-  console.log({ transcriptContent });
+  console.dir({ transcriptContent }, { depth: 10 });
 
   const res = transcriptContent.map((segment) => {
     if ("transcriptSectionHeaderRenderer" in segment) {
