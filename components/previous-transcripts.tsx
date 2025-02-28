@@ -10,6 +10,9 @@ import {
   SidebarMenuItem,
 } from "./ui/sidebar";
 import { TranscriptResponseData } from "@/app/types";
+import { TooltipContent } from "./ui/tooltip";
+import { TooltipTrigger } from "./ui/tooltip";
+import { Tooltip } from "./ui/tooltip";
 
 export function PreviousTranscripts() {
   const setTranscript = useSetAtom(transcriptAtom);
@@ -58,7 +61,12 @@ export function PreviousTranscripts() {
               handleCopy(transcript.url);
             }}
           >
-            <Copy />
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Copy />
+              </TooltipTrigger>
+              <TooltipContent>Copy URL</TooltipContent>
+            </Tooltip>
           </SidebarMenuAction>
         </SidebarMenuItem>
       ))}

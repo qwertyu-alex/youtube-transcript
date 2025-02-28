@@ -15,7 +15,7 @@ export function Sidebar() {
     <SidebarComponent>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Previous Transcripts</SidebarGroupLabel>
+          <SidebarGroupLabel>Previous transcripts</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               <PreviousTranscripts />

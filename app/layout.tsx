@@ -3,6 +3,12 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { Sidebar } from "@/components/sidebar";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export const metadata: Metadata = {
   title: "Free YouTube Transcript Generator",
@@ -35,10 +41,19 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <SidebarProvider>
-          <Sidebar />
-          <SidebarTrigger />
-          {children}
-          <Toaster />
+          <TooltipProvider delayDuration={100}>
+            <Sidebar />
+            <div className="relative top-2 left-2">
+              <Tooltip>
+                <TooltipTrigger>
+                  <SidebarTrigger />
+                </TooltipTrigger>
+                <TooltipContent>Open sidebar (⌘+B)</TooltipContent>
+              </Tooltip>
+            </div>
+            {children}
+            <Toaster />
+          </TooltipProvider>
         </SidebarProvider>
       </body>
     </html>
