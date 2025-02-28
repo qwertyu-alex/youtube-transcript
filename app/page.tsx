@@ -15,7 +15,7 @@ export default function Home() {
     <main className="container mx-auto p-4">
       <div>
         <h1 className="text-3xl font-bold text-center">
-          Free YouTube Transcript Generator
+          📺 Free YouTube Transcript Generator
         </h1>
         <p className="text-center text-gray-500 mb-4">
           Fastest way to get transcripts from Youtube videos. Don't believe me?
