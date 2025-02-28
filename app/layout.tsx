@@ -45,7 +45,7 @@ export default function RootLayout({
             <Sidebar />
             <div className="relative top-2 left-2">
               <Tooltip>
-                <TooltipTrigger>
+                <TooltipTrigger asChild>
                   <SidebarTrigger />
                 </TooltipTrigger>
                 <TooltipContent>Open sidebar (⌘+B)</TooltipContent>

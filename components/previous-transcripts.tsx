@@ -16,8 +16,18 @@ import { Tooltip } from "./ui/tooltip";
 
 export function PreviousTranscripts() {
   const setTranscript = useSetAtom(transcriptAtom);
+
   const previousTranscripts = useAtomValue(previousTranscriptsAtom);
-  const sortedTranscripts = previousTranscripts.toSorted(
+
+  const uniqueTranscripts = previousTranscripts.filter(
+    (transcript, index, self) =>
+      index ===
+      self.findIndex(
+        (t) => t.url === transcript.url && t.createdAt === transcript.createdAt
+      )
+  );
+
+  const sortedTranscripts = uniqueTranscripts.toSorted(
     (a, b) => b.createdAt - a.createdAt
   );
 
@@ -35,7 +45,7 @@ export function PreviousTranscripts() {
   return (
     <>
       {sortedTranscripts.map((transcript) => (
-        <SidebarMenuItem key={transcript.createdAt}>
+        <SidebarMenuItem key={`${transcript.createdAt}-${transcript.url}`}>
           <SidebarMenuButton
             size={"lg"}
             className="flex flex-col gap-0"
