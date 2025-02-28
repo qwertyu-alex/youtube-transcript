@@ -6,7 +6,6 @@ import {
   SidebarGroupLabel,
   SidebarMenu,
   SidebarRail,
-  SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { PreviousTranscripts } from "./previous-transcripts";
 

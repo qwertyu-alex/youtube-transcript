@@ -35,7 +35,7 @@ export function PreviousTranscripts() {
   return (
     <>
       {sortedTranscripts.map((transcript) => (
-        <SidebarMenuItem key={transcript.url}>
+        <SidebarMenuItem key={transcript.createdAt}>
           <SidebarMenuButton
             size={"lg"}
             className="flex flex-col gap-0"
