@@ -9,6 +9,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { PostHogProvider } from "./providers";
 
 export const metadata: Metadata = {
   title: "Free YouTube Transcript Generator",
@@ -40,21 +41,23 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <SidebarProvider>
-          <TooltipProvider delayDuration={100}>
-            <Sidebar />
-            <div className="relative top-2 left-2">
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <SidebarTrigger />
-                </TooltipTrigger>
-                <TooltipContent>Open sidebar (⌘+B)</TooltipContent>
-              </Tooltip>
-            </div>
-            {children}
-            <Toaster />
-          </TooltipProvider>
-        </SidebarProvider>
+        <PostHogProvider>
+          <SidebarProvider>
+            <TooltipProvider delayDuration={100}>
+              <Sidebar />
+              <div className="relative top-2 left-2">
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <SidebarTrigger />
+                  </TooltipTrigger>
+                  <TooltipContent>Open sidebar (⌘+B)</TooltipContent>
+                </Tooltip>
+              </div>
+              {children}
+              <Toaster />
+            </TooltipProvider>
+          </SidebarProvider>
+        </PostHogProvider>
       </body>
     </html>
   );
