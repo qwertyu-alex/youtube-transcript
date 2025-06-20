@@ -1,15 +1,15 @@
 import { YoutubeTranscript } from "@/app/transcript";
 import { extractVideoId } from "@/app/util";
 import { NextResponse } from "next/server";
-import sanitizeHtml from "sanitize-html";
 import { parse } from "node-html-parser";
+import sanitizeHtml from "sanitize-html";
 
 export async function POST(request: Request) {
   try {
-    const { url } = await request.json();
+    const { url, videoId: videoIdFromRequest } = await request.json();
     console.log("Received URL:", url); // Log the received URL
 
-    const videoId = extractVideoId(url);
+    const videoId = videoIdFromRequest || extractVideoId(url);
 
     if (!videoId) {
       return NextResponse.json(

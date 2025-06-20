@@ -1,4 +1,3 @@
-import parse from "node-html-parser";
 import { tryMethodA } from "./methods/tryMethodA";
 import { tryMethodB } from "./methods/tryMethodB";
 import { TranscriptResponse } from "./types";
